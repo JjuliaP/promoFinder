@@ -1,7 +1,13 @@
 <template>
   <div>
     <label for="input">{{ label }}</label>
-    <input type="text" name="gender" id="input" :placeholder="this.placeholder">
+    <input
+      type="text"
+      name="gender"
+      id="input"
+      :placeholder="this.placeholder"
+      :autofocus="this.autofocus"
+    >
   </div>
 </template>
 
@@ -11,7 +17,7 @@ export default {
   props: {
     label: String,
     placeholder: String,
-    focus: Boolean
+    autofocus: String //Boolean
   }
 };
 </script>
