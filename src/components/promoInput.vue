@@ -7,7 +7,9 @@
       id="input"
       :placeholder="this.placeholder"
       :autofocus="this.autofocus"
+      v-model="email"
     >
+    <button @click="submit">click me!!</button>
   </div>
 </template>
 
@@ -18,6 +20,27 @@ export default {
     label: String,
     placeholder: String,
     autofocus: String //Boolean
+  },
+  data() {
+    return {
+      email: "https://jsonplaceholder.typicode.com/posts/42"
+    };
+  },
+  methods: {
+    submit() {
+      fetch(this.email, {
+            method: 'GET',
+            headers: {
+                credentials: 'include',
+                accept:
+                    "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+                "upgrade-insecure-requests": 1
+        }
+      })
+        .then(response => response.json())
+        .then(result => alert(result));
+      //alert(this.email);
+    }
   }
 };
 </script>
