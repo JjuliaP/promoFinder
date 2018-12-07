@@ -1,15 +1,22 @@
 <template>
   <div>
     <label for="input">{{ label }}</label>
-    <input
-      type="text"
-      name="gender"
-      id="input"
-      :placeholder="this.placeholder"
-      :autofocus="this.autofocus"
-      v-model="email"
-    >
-    <button @click="submit">click me!!</button>
+    <input type="text" :placeholder="this.placeholder" :autofocus="this.autofocus" v-model="email">
+    <button @click="fetchData">Search</button>
+    <br>
+
+    <table align="center" :style="this.style">
+      <thead>
+        <tr>
+          <th>Promo</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tr v-for="code in Object.keys(resultObject)">
+        <td>{{code}}</td>
+        <td>{{resultObject[code]}}</td>
+      </tr>
+    </table>
   </div>
 </template>
 
@@ -21,25 +28,28 @@ export default {
     placeholder: String,
     autofocus: String //Boolean
   },
+  //   computed: {
+  //     style: function() {
+  //       return {};
+  //     }
+  //   },
   data() {
     return {
-      email: "https://jsonplaceholder.typicode.com/posts/42"
+      email: "https://jsonplaceholder.typicode.com/todos/1",
+      resultObject: {},
+      style: {
+        display: "none"
+      }
     };
   },
   methods: {
-    submit() {
-      fetch(this.email, {
-            method: 'GET',
-            headers: {
-                credentials: 'include',
-                accept:
-                    "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-                "upgrade-insecure-requests": 1
-        }
-      })
+    fetchData() {
+      return fetch(this.email)
         .then(response => response.json())
-        .then(result => alert(result));
-      //alert(this.email);
+        .then(json => {
+          this.resultObject = json;
+          this.style.display = !!this.resultObject ? "table" : "none";
+        });
     }
   }
 };
